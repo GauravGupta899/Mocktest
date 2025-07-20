@@ -21,7 +21,6 @@ async function generateWithRetry(model, prompt, retries = 3, delay = 2000) {
       const result = await model.generateContent(prompt);
       return await result.response.text();
     } catch (err) {
-      // Retry on 503 Service Unavailable
       if (err.message && err.message.includes("503") && i < retries - 1) {
         await new Promise((res) => setTimeout(res, delay));
       } else {
@@ -59,7 +58,8 @@ app.post("/api/generate", async (req, res) => {
   }
 });
 
-const PORT = 3000;
+// ✅ Use Render's dynamic port
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
