@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test - Gemini Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 50%, #f7971e 100%);
+      background-size: 200% 200%;
+      animation: bgMove 10s ease-in-out infinite alternate;
+      overflow-x: hidden;
+    }
+    @keyframes bgMove {
+      0% {background-position: 0% 50%;}
+      100% {background-position: 100% 50%;}
+    }
+    .fade-in { opacity: 0; animation: fadeIn 1.2s forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .animated-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #2575fc, #6a11cb, #ff6a00, #f7971e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: gradientMove 3s infinite linear alternate;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    @keyframes gradientMove {
+      0% {background-position: 0%;}
+      100% {background-position: 100%;}
+    }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.97);
+    }
+    .correct {
+      background-color: #d4edda !important;
+      transition: background 0.5s;
+      border-left: 5px solid #28a745;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      transition: background 0.5s;
+      border-left: 5px solid #dc3545;
+    }
+    .btn-animated {
+      animation: bounce 1.2s infinite alternate;
+    }
+    @keyframes bounce {
+      to { transform: translateY(-8px);}
+    }
+    #scoreDisplay {
+      font-size: 1.5rem;
+      padding: 1rem;
+      animation: celebrate 1s ease-out;
+      border-radius: 10px;
+    }
+    @keyframes celebrate {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    img.option-img {
+      max-height: 100px;
+      margin-top: 5px;
+      display: block;
+    }
+    code {
+      background: #eee;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card p-4 fade-in">
+      <div class="animated-title">🧠 Gemini Mock Test</div>
+      <h2 class="text-center mb-4">Generate Your Mock Test</h2>
+      <div class="mb-3">
+        <label for="topic" class="form-label fw-bold">Enter Topic</label>
+        <input type="text" id="topic" class="form-control" placeholder="e.g., JavaScript, HTML" />
+      </div>
+      <div class="text-center mb-4">
+        <button class="btn btn-primary btn-animated" onclick="generateTest()">Generate Test</button>
+      </div>
+      <div id="questionsContainer"></div>
+      <h4 id="scoreDisplay" class="mt-4 text-center fw-bold text-success"></h4>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    let questionsData = [];
+
+    async function generateTest() {
+      const topic = document.getElementById("topic").value.trim();
+      const container = document.getElementById("questionsContainer");
+      const scoreDisplay = document.getElementById("scoreDisplay");
+      scoreDisplay.innerText = "";
+      container.innerHTML = "<div class='text-center text-secondary'><span class='spinner-border'></span> Loading...</div>";
+
+      if (!topic) {
+        container.innerHTML = "<div class='text-danger'>Please enter a topic.</div>";
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:3000/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic }),
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          questionsData = parseQuestions(data.content);
+          renderQuestions(questionsData);
+        } else {
+          container.innerHTML = "Error: " + data.error;
+        }
+      } catch (err) {
+        container.innerHTML = "❌ Failed to connect to server.";
+      }
+    }
+
+    function parseQuestions(text) {
+      const blocks = text.trim().split(/\n(?=\d+\.\s)/);
+      return blocks.map((block) => {
+        const lines = block.trim().split("\n");
+        const question = lines[0].replace(/^\d+\.\s/, "");
+        const options = {
+          A: lines[1].substring(3).trim(),
+          B: lines[2].substring(3).trim(),
+          C: lines[3].substring(3).trim(),
+          D: lines[4].substring(3).trim(),
+        };
+        const correct = lines[5].split(":")[1].trim().toUpperCase();
+        return { question, options, correct, userAnswer: null };
+      });
+    }
+
+    function renderOptionValue(value) {
+      const urlPattern = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i;
+      const match = value.match(urlPattern);
+
+      if (match) {
+        return `<img src="${match[0]}" class="option-img" alt="Option image">`;
+      } else {
+        return `<code>${escapeHtml(value)}</code>`;
+      }
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function renderQuestions(questions) {
+      const container = document.getElementById("questionsContainer");
+      container.innerHTML = "";
+
+      questions.forEach((q, index) => {
+        const div = document.createElement("div");
+        div.className = "p-3 mb-3 border rounded fade-in";
+        div.id = `q${index}`;
+
+        div.innerHTML = `
+          <p><strong>${index + 1}. ${q.question}</strong></p>
+          ${Object.entries(q.options).map(([key, val]) => `
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="q${index}" value="${key}" onchange="questionsData[${index}].userAnswer='${key}'">
+              <label class="form-check-label">${key}) ${renderOptionValue(val)}</label>
+            </div>`).join("")}
+        `;
+
+        container.appendChild(div);
+      });
+
+      const submitBtn = document.createElement("div");
+      submitBtn.className = "text-center mt-4";
+      submitBtn.innerHTML = `<button class="btn btn-success btn-lg btn-animated" onclick="submitTest()">Submit Answers</button>`;
+      container.appendChild(submitBtn);
+    }
+
+    function submitTest() {
+      let score = 0;
+
+      questionsData.forEach((q, index) => {
+        const div = document.getElementById(`q${index}`);
+        div.classList.remove("correct", "incorrect");
+
+        const correctText = `<div class='mt-2 small text-muted'>✅ Correct Answer: ${q.correct}) ${renderOptionValue(q.options[q.correct])}</div>`;
+
+        if (q.userAnswer === q.correct) {
+          div.classList.add("correct");
+          score++;
+        } else {
+          div.classList.add("incorrect");
+        }
+
+        if (!div.innerHTML.includes("✅ Correct Answer")) {
+          div.innerHTML += correctText;
+        }
+      });
+
+      const scoreDisplay = document.getElementById("scoreDisplay");
+      scoreDisplay.innerHTML = `🎉 You got <span class="text-primary">${score}</span> out of <span class="text-primary">${questionsData.length}</span> correct!`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (score > 0) {
+        confetti({
+          particleCount: 150,
+          spread: 100,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

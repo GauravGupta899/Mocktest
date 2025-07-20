@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gemini Mock Test Web App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    /* Animated Background */
+    body {
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #cce5ff, #ccffcc, #ffd6cc, #f0ccff);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animated-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #2575fc, #6a11cb, #ff6a00, #f7971e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: gradientMove 3s infinite linear alternate;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0%; }
+      100% { background-position: 100%; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+      border: none;
+    }
+
+    .btn-animated {
+      animation: bounce 1.2s infinite alternate;
+    }
+
+    @keyframes bounce {
+      to { transform: translateY(-8px); }
+    }
+
+    .about-section {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #2575fc, #6a11cb, #ff6a00, #f7971e);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: gradientMove 3s infinite linear alternate;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .gif-img {
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 991px) {
+      .gif-col {
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Mock Test</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="home.html">Test</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about-section">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <div class="row align-items-center justify-content-center g-5">
+      <!-- Text Content -->
+      <div class="col-lg-7 fade-in">
+        <div class="card p-4">
+          <div class="animated-title">Gemini Mock Test App</div>
+          <p class="lead mb-4 text-center">
+            <span class="fw-bold text-primary">Prepare for interviews and college exams</span> the easy and fast way!<br>
+            Instantly generate high-quality mock tests for any topic using AI.<br>
+            <span class="text-success">No sign-up required. Just select your topic and start practicing!</span>
+          </p>
+          <div class="d-grid gap-2 col-8 mx-auto mb-3">
+            <a href="home.html" class="btn btn-primary btn-lg btn-animated">Start Mock Test</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- GIF Section -->
+      <div class="col-lg-5 text-center gif-col fade-in">
+        <img src="https://cdn.pixabay.com/animation/2022/11/10/13/22/13-22-56-246_512.gif"
+             alt="Typing"
+             class="img-fluid gif-img" />
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section" id="about-section">
+      <div class="section-title">About Gemini MockTest</div>
+      <p class="lead text-center mb-4">
+        <span class="fw-bold">MockTest</span> is an innovative and intelligent web application designed to help students and job seekers prepare efficiently for college exams, government exams, and interviews.<br>
+        Powered by <span class="text-primary fw-bold">Gemini AI</span>, MockTest delivers personalized, real-time mock questions and answers tailored to your goals and subjects.
+      </p>
+      <h4 class="mb-3 text-center">Key Features</h4>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="icon">🤖</span> <strong>AI-Generated Questions:</strong> Real-time, topic-specific questions generated by Gemini AI for up-to-date and relevant practice.</li>
+            <li class="list-group-item"><span class="icon">📚</span> <strong>Multiple Exam Categories:</strong> Prepare for college semester exams, competitive government exams, and job interviews.</li>
+            <li class="list-group-item"><span class="icon">⏱️</span> <strong>Timed Mock Tests:</strong> Practice under exam-like pressure to improve your speed and accuracy.</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="icon">📈</span> <strong>Instant Feedback & Scoring:</strong> Know your strengths and weaknesses instantly to improve performance.</li>
+            <li class="list-group-item"><span class="icon">🧠</span> <strong>Smart Learning:</strong> The system adapts to your responses and helps focus on areas that need improvement.</li>
+            <li class="list-group-item"><span class="icon">🔒</span> <strong>Secure & Free:</strong> No registration needed. Open, free, and secure for all users.</li>
+          </ul>
+        </div>
+      </div>
+      <h4 class="mb-3 text-center">Why Choose MockTest?</h4>
+      <p class="text-center mb-4">
+        MockTest isn't just another quiz app — it's your smart companion for success.<br>
+        With real-time AI integration, a clean interface built using Bootstrap, and support for multiple preparation categories, we aim to revolutionize the way students and aspirants get ready for exams and interviews.
+      </p>
+      <h5 class="mb-2 text-center">Contact Details</h5>
+      <div class="contact-info text-center">
+        <span class="fw-semibold">Email:</span> Gauravji9695@gmail.com<br>
+        <span class="fw-semibold">Phone:</span> +91-9695672632<br>
+        <span class="fw-semibold">Address:</span> 123, AI BBDU, Lucknow, India
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
