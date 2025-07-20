@@ -114,7 +114,7 @@
       }
 
       try {
-        const res = await fetch("https://mocktest-api.onrender.com/generate", {
+        const res = await fetch("https://mocktest-api.onrender.com/api/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ topic }),
@@ -125,7 +125,7 @@
           questionsData = parseQuestions(data.content);
           renderQuestions(questionsData);
         } else {
-          container.innerHTML = "Error: " + data.error;
+          container.innerHTML = "❌ Error: " + data.error;
         }
       } catch (err) {
         container.innerHTML = "❌ Failed to connect to server.";
