@@ -11,10 +11,12 @@ app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// Home route
 app.get("/", (req, res) => {
   res.send("✅ Gemini API server is running.");
 });
 
+// Retry logic
 async function generateWithRetry(model, prompt, retries = 3, delay = 2000) {
   for (let i = 0; i < retries; i++) {
     try {
@@ -30,6 +32,7 @@ async function generateWithRetry(model, prompt, retries = 3, delay = 2000) {
   }
 }
 
+// API route
 app.post("/api/generate", async (req, res) => {
   const { topic } = req.body;
 
@@ -58,7 +61,7 @@ app.post("/api/generate", async (req, res) => {
   }
 });
 
-// ✅ Use Render's dynamic port
+// Use Render's dynamic port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
