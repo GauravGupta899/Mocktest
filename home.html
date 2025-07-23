@@ -77,16 +77,39 @@
       padding: 2px 5px;
       border-radius: 4px;
     }
+    .topic-prompt {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .topic-prompt h2 {
+      font-weight: bold;
+      color: #333;
+    }
+    .topic-prompt .lead {
+      color: #555;
+    }
+    .intro-gif {
+      max-width: 200px;
+      margin: 0 auto 1.5rem auto;
+      display: block;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container mt-5">
     <div class="card p-4 fade-in">
       <div class="animated-title">🧠 Gemini Mock Test</div>
-      <h2 class="text-center mb-4">Generate Your Mock Test</h2>
+      
+      <div class="topic-prompt">
+        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWw0b3hodnBsdDUxenVna2pvdjFkYm03M2E5bHBpem1mbnh2b2RodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l41lTR6jmXXx54S4w/giphy.gif" alt="Thinking GIF" class="intro-gif">
+        <h2>What topic are you ready to test yourself on?</h2>
+        <p class="lead">Enter a topic below to generate your personalized mock test.</p>
+      </div>
+
       <div class="mb-3">
         <label for="topic" class="form-label fw-bold">Enter Topic</label>
-        <input type="text" id="topic" class="form-control" placeholder="e.g., JavaScript, HTML" />
+        <input type="text" id="topic" class="form-control" placeholder="e.g., JavaScript, World History, Chemistry" />
       </div>
       <div class="text-center mb-4">
         <button class="btn btn-primary btn-animated" onclick="generateTest()">Generate Test</button>
@@ -161,9 +184,9 @@
 
     function escapeHtml(str) {
       return str
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">");
     }
 
     function renderQuestions(questions) {
