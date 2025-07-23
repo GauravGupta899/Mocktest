@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Test - Gemini Test</title>
+  <title>Home - Gemini Mock Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
@@ -35,6 +35,30 @@
       0% {background-position: 0%;}
       100% {background-position: 100%;}
     }
+    .btn-animated {
+      animation: bounce 1.2s infinite alternate;
+    }
+    @keyframes bounce {
+      to { transform: translateY(-8px);}
+    }
+    .motivational {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #0c5460;
+      background: #d1ecf1;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .gif-container {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .gif-container img {
+      max-width: 300px;
+      border-radius: 12px;
+    }
     .card {
       border-radius: 1rem;
       box-shadow: 0 4px 24px rgba(0,0,0,0.10);
@@ -49,12 +73,6 @@
       background-color: #f8d7da !important;
       transition: background 0.5s;
       border-left: 5px solid #dc3545;
-    }
-    .btn-animated {
-      animation: bounce 1.2s infinite alternate;
-    }
-    @keyframes bounce {
-      to { transform: translateY(-8px);}
     }
     #scoreDisplay {
       font-size: 1.5rem;
@@ -83,21 +101,32 @@
   <div class="container mt-5">
     <div class="card p-4 fade-in">
       <div class="animated-title">🧠 Gemini Mock Test</div>
+
+      <div class="gif-container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZm9ibjdnd3Nkb2E0d3ZxZ2FlaHhkNWxvbDY0Z3E1Mm5lZm5mMWM4bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/WtTnAfZn6aVJfJrWvx/giphy.gif" alt="Motivation GIF">
+      </div>
+
+      <div class="motivational">
+        ✨ Best of luck for your mock test exam! You’ve got this!
+      </div>
+
       <h2 class="text-center mb-4">Generate Your Mock Test</h2>
+
       <div class="mb-3">
         <label for="topic" class="form-label fw-bold">Enter Topic</label>
         <input type="text" id="topic" class="form-control" placeholder="e.g., JavaScript, HTML" />
       </div>
+
       <div class="text-center mb-4">
         <button class="btn btn-primary btn-animated" onclick="generateTest()">Generate Test</button>
       </div>
+
       <div id="questionsContainer"></div>
       <h4 id="scoreDisplay" class="mt-4 text-center fw-bold text-success"></h4>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
   <script>
     let questionsData = [];
 
